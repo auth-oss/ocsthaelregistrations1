@@ -1,0 +1,7 @@
+{
+  "name": "Ocsthael Registration",
+  "description": "Multi-step registration portal for ocsthael.com with OCR, Signature, and Firebase integration.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}

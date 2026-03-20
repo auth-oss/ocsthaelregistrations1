@@ -1,0 +1,63 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "A registered user on ocsthael.com",
+      "type": "object",
+      "properties": {
+        "ocsthaelId": {
+          "type": "string",
+          "description": "Unique generated ID (OC-XXXX)"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "phoneNumber": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "idNumber": {
+          "type": "string",
+          "description": "Extracted from NID/Birth Certificate"
+        },
+        "profilePhotoUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "signatureUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "bio": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "ocsthaelId",
+        "email",
+        "phoneNumber",
+        "name",
+        "idNumber",
+        "createdAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": {
+        "$ref": "#/entities/User"
+      },
+      "description": "Stores user registration data"
+    }
+  }
+}

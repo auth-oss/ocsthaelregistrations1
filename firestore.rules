@@ -1,0 +1,113 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: users
+    // Document ID: {userId} (matches Firebase Auth UID)
+    // Fields:
+    //   - ocsthaelId: string (required) - Unique ID (OC-XXXX)
+    //   - email: string (required) - User's email address
+    //   - phoneNumber: string (required) - User's phone number
+    //   - name: string (required) - User's full name
+    //   - idNumber: string (required) - Extracted ID number
+    //   - nidUrl: string (optional) - URL to NID image
+    //   - nid_cloudinary_id: string (optional)
+    //   - nid_back_url: string (optional)
+    //   - nid_back_cloudinary_id: string (optional)
+    //   - nid_upload_date: number (optional)
+    //   - nid_image_deleted: boolean (optional)
+    //   - name_bn: string (optional)
+    //   - father_name: string (optional)
+    //   - mother_name: string (optional)
+    //   - dob: string (optional)
+    //   - address: string (optional)
+    //   - blood_group: string (optional)
+    //   - birth_place: string (optional)
+    //   - issue_date: string (optional)
+    //   - profilePhotoUrl: string (optional) - URL to profile photo
+    //   - signatureUrl: string (optional) - URL to signature image
+    //   - bio: string (optional) - User's biography
+    //   - username: string (optional) - User's chosen username
+    //   - walletBalance: number (required) - User's wallet balance
+    //   - createdAt: timestamp (required) - Creation time
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    function hasRequiredFields(fields) {
+      return request.resource.data.keys().hasAll(fields);
+    }
+    
+    function isValidEmail(email) {
+      return email is string && email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+    }
+    
+    function isValidOptionalString(field, minLen, maxLen) {
+      return !(field in request.resource.data) ||
+             (request.resource.data[field] is string &&
+              request.resource.data[field].size() >= minLen &&
+              request.resource.data[field].size() <= maxLen);
+    }
+    
+    function isValidUser(data) {
+      return hasRequiredFields(['ocsthaelId', 'email', 'phoneNumber', 'name', 'idNumber', 'walletBalance', 'createdAt']) &&
+             data.ocsthaelId is string && data.ocsthaelId.matches("^OC-\\d{4}$") &&
+             isValidEmail(data.email) &&
+             data.phoneNumber is string && data.phoneNumber.size() >= 5 && data.phoneNumber.size() <= 20 &&
+             data.name is string && data.name.size() > 0 && data.name.size() <= 100 &&
+             data.idNumber is string && data.idNumber.size() > 0 && data.idNumber.size() <= 50 &&
+             data.walletBalance is number && data.walletBalance >= 0 &&
+             data.createdAt is timestamp &&
+             isValidOptionalString('nidUrl', 0, 1000) &&
+             isValidOptionalString('nid_cloudinary_id', 0, 1000) &&
+             isValidOptionalString('nid_back_url', 0, 1000) &&
+             isValidOptionalString('nid_back_cloudinary_id', 0, 1000) &&
+             (!('nid_upload_date' in data) || data.nid_upload_date is number) &&
+             (!('nid_image_deleted' in data) || data.nid_image_deleted is bool) &&
+             isValidOptionalString('name_bn', 0, 200) &&
+             isValidOptionalString('father_name', 0, 200) &&
+             isValidOptionalString('mother_name', 0, 200) &&
+             isValidOptionalString('dob', 0, 50) &&
+             isValidOptionalString('address', 0, 1000) &&
+             isValidOptionalString('blood_group', 0, 20) &&
+             isValidOptionalString('birth_place', 0, 200) &&
+             isValidOptionalString('issue_date', 0, 50) &&
+             isValidOptionalString('profilePhotoUrl', 0, 1000) &&
+             isValidOptionalString('signatureUrl', 0, 1000) &&
+             isValidOptionalString('bio', 0, 2000) &&
+             isValidOptionalString('username', 0, 50);
+    }
+
+    match /users/{userId} {
+      // Users can only read their own data
+      allow read: if isOwner(userId);
+      
+      // Users can create their own profile
+      allow create: if isOwner(userId) && isValidUser(request.resource.data);
+      
+      // Users can update their own profile, but cannot change their ocsthaelId or createdAt
+      allow update: if isOwner(userId) && 
+                    isValidUser(request.resource.data) &&
+                    request.resource.data.ocsthaelId == resource.data.ocsthaelId &&
+                    request.resource.data.createdAt == resource.data.createdAt;
+                    
+      allow delete: if false; // Deletion not allowed via client
+    }
+  }
+}
