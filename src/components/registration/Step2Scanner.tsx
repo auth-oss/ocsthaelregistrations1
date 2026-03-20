@@ -104,7 +104,7 @@ export function Step2Scanner() {
       const backMimeTypeMatch = back.match(/^data:(image\/(png|jpeg|jpg|webp));base64,/);
       const backMimeType = backMimeTypeMatch ? backMimeTypeMatch[1] : 'image/jpeg';
 
-      const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "AIzaSyCnRcGhc93ut0XXFtkmom1GbZFKUz44l6E" });
+      const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
       const response = await ai.models.generateContent({
         model: 'gemini-3.1-pro-preview',
         contents: {

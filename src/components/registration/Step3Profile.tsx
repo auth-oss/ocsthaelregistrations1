@@ -21,8 +21,8 @@ export function Step3Profile() {
     if (!file) return;
 
     setIsUploading(true);
-    const cloudName = 'dxiolmmdv'; // From prompt
-    const uploadPreset = 'oc_uploads'; // From prompt
+    const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+    const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 
     const formData = new FormData();
     formData.append('file', file);

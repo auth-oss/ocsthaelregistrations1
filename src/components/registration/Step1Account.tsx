@@ -38,10 +38,10 @@ export function Step1Account() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          service_id: import.meta.env.VITE_EMAILJS_AUTH_SERVICE_ID || 'service_7joia8l',
-          template_id: import.meta.env.VITE_EMAILJS_AUTH_TEMPLATE_ID || 'template_t1nzyk9',
-          user_id: import.meta.env.VITE_EMAILJS_AUTH_PUBLIC_KEY || 'dGeS-888dsuY81CaC',
-          accessToken: import.meta.env.VITE_EMAILJS_AUTH_PRIVATE_KEY || 'U2j9q3IHg_Cus_22W05rX',
+          service_id: import.meta.env.VITE_EMAILJS_AUTH_SERVICE_ID,
+          template_id: import.meta.env.VITE_EMAILJS_AUTH_TEMPLATE_ID,
+          user_id: import.meta.env.VITE_EMAILJS_AUTH_PUBLIC_KEY,
+          accessToken: import.meta.env.VITE_EMAILJS_AUTH_PRIVATE_KEY,
           template_params: {
             to_email: email,
             email: email, // Fallback in case template uses {{email}}

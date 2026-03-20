@@ -135,14 +135,14 @@ export function Step4Success() {
 
       // 4. Send Welcome Email via EmailJS
       const welcomeEmailPromise = emailjs.send(
-        import.meta.env.VITE_EMAILJS_AUTH_SERVICE_ID || 'service_7joia8l',
-        import.meta.env.VITE_EMAILJS_WELCOME_TEMPLATE_ID || 'template_7is790g',
+        import.meta.env.VITE_EMAILJS_AUTH_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_WELCOME_TEMPLATE_ID,
         {
           user_name: data.name,
           service_link: "https://ocsthael.com/services",
           email: data.email
         },
-        import.meta.env.VITE_EMAILJS_AUTH_PUBLIC_KEY || 'dGeS-888dsuY81CaC'
+        import.meta.env.VITE_EMAILJS_AUTH_PUBLIC_KEY
       ).then(
         (res) => console.log("Welcome Email Sent!", res.status, res.text),
         (err) => console.error("Welcome Email Error!", err)
@@ -153,10 +153,10 @@ export function Step4Success() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          service_id: import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_82x51hh',
-          template_id: import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_pgs759e',
-          user_id: import.meta.env.VITE_EMAILJS_PUBLIC_KEY || '0Wn4VU_rBy5ve6v9U',
-          accessToken: import.meta.env.VITE_EMAILJS_PRIVATE_KEY || 'Q4eU6TgsxIu339hQxSioI',
+          service_id: import.meta.env.VITE_EMAILJS_SERVICE_ID,
+          template_id: import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+          user_id: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+          accessToken: import.meta.env.VITE_EMAILJS_PRIVATE_KEY,
           template_params: {
             to_email: data.email,
             email: data.email,

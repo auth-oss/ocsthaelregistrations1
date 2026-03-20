@@ -18,9 +18,9 @@ try {
 }
 
 cloudinary.config({ 
-  cloud_name: process.env.VITE_CLOUDINARY_CLOUD_NAME || 'dxiolmmdv', 
-  api_key: process.env.VITE_CLOUDINARY_API_KEY || 'YOUR_API_KEY', 
-  api_secret: process.env.VITE_CLOUDINARY_API_SECRET || 'YOUR_API_SECRET' 
+  cloud_name: process.env.VITE_CLOUDINARY_CLOUD_NAME, 
+  api_key: process.env.VITE_CLOUDINARY_API_KEY, 
+  api_secret: process.env.VITE_CLOUDINARY_API_SECRET 
 });
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
