@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "//": "Version 1.0.1 - Trigger Sync",
+  "//": "Version 1.0.2 - Force Sync for Vercel",
   "rewrites": [
     {
       "source": "/api/(.*)",
