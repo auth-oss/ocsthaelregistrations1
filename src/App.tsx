@@ -1,4 +1,5 @@
 import React from 'react';
+// Version 1.0.1 - Trigger Sync
 import { RegistrationProvider, useRegistration } from './context/RegistrationContext';
 import { Step1Account } from './components/registration/Step1Account';
 import { Step2Scanner } from './components/registration/Step2Scanner';

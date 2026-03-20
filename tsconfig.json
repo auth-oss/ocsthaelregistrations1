@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
+    "target": "ES2022", // Version 1.0.1 - Trigger Sync
     "experimentalDecorators": true,
     "useDefineForClassFields": false,
     "module": "ESNext",

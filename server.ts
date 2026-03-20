@@ -1,4 +1,5 @@
 import express from 'express';
+// Version 1.0.1 - Trigger Sync
 import cors from 'cors';
 import { createServer as createViteServer } from 'vite';
 import cron from 'node-cron';
@@ -25,8 +26,8 @@ try {
 
 cloudinary.config({ 
   cloud_name: process.env.VITE_CLOUDINARY_CLOUD_NAME || 'dxiolmmdv', 
-  api_key: process.env.VITE_CLOUDINARY_API_KEY || 'YOUR_API_KEY', 
-  api_secret: process.env.VITE_CLOUDINARY_API_SECRET || 'YOUR_API_SECRET' 
+  api_key: process.env.VITE_CLOUDINARY_API_KEY || '842696479721211', 
+  api_secret: process.env.VITE_CLOUDINARY_API_SECRET || 'oWiNS3JZJio5VmsVD6w4tiD1qzM' 
 });
 
 const app = express();
